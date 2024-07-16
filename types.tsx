@@ -1,15 +1,15 @@
 export type User = {
-    id: String,
-    email: String,
-    password: String,
+    id: string,
+    email: string,
+    password: string,
     tasks: Task[],
-    name: String
+    name: string
 }
 
 export type Task = {
-    id: String,
-    title: String,
-    description: String,
+    id: string,
+    title: string,
+    description: string,
     dueDate: Date,
     status: boolean
 }
@@ -20,3 +20,10 @@ export type UserState = {
 }
 
 export type ScreenNames = ["Login", "Register", "LandingPage"] 
+
+export type UserRegister = {
+    name:string,
+    password:string,
+    confirmPassword:string,
+    email:string
+}

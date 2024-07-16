@@ -1,51 +1,93 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { Provider } from 'react-redux';
-import { persister, store } from './context/store';
-import { PersistGate } from 'redux-persist/integration/react';
-import { useAppSelector } from './hooks/reduxHooks';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import LandingPage from './screens/public/LandingPage';
-import Login from './screens/public/Login';
-import Register from './screens/public/Register';
-import HomePage from './screens/auth/HomePage';
-import Calender from './screens/auth/Calendar';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { Provider } from "react-redux";
+import { persister, store } from "./context/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { useAppSelector } from "./hooks/reduxHooks";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import LandingPage from "./screens/public/LandingPage";
+import Login from "./screens/public/Login";
+import Register from "./screens/public/Register";
+import HomePage from "./screens/auth/HomePage";
+import Calender from "./screens/auth/Calendar";
+import { toastConfig } from "./helper/toastConfigs";
+import Toast from "react-native-toast-message";
+import { TabBarIcon } from "./components/TabBarIcon";
+import CreateTask from "./screens/auth/CreateTask";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
-function InitialLayout(){
+function InitialLayout() {
+  const activeUser = useAppSelector((state) => state.reducer.activeUser);
 
-
-  const activeUser = useAppSelector(state => state.reducer.activeUser)
-
-  return(
+  return (
     <NavigationContainer>
-      {
-        activeUser === null?
-        <Stack.Navigator>
-          <Stack.Screen name='LandingPage' component={LandingPage}/>
-          <Stack.Screen name='Login' component={Login}/>
-          <Stack.Screen name='Register' component={Register}/>
+      {activeUser === null ? (
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="LandingPage" component={LandingPage} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Register" component={Register} />
         </Stack.Navigator>
-        :
-        <Tab.Navigator>
-          <Tab.Screen name='Home' component={HomePage}/>
-          <Tab.Screen name='Calendar' component={Calender}/>
+      ) : (
+        <Tab.Navigator
+            activeColor="#ffffff"
+            inactiveColor="#ffffff"
+            barStyle={{ backgroundColor: '#4535C1'}}
+            activeIndicatorStyle={{ backgroundColor:'#4535C1'}}
+            shifting={true}
+            initialRouteName="Home"
+        >
+          <Tab.Screen
+            name="Home"
+            component={HomeStackScreen}
+            options={{
+              tabBarIcon: ({ color, focused }) => (
+                <TabBarIcon name={focused ? "home" : "home-outline"} color={color}/>
+              ),              
+            }}
+          />
+          <Tab.Screen
+            name="Calendar"
+            component={Calender}
+            
+            options={{
+              tabBarIcon: ({ color, focused }) => (
+                <TabBarIcon
+                  color={color}
+                  name={focused ? "calendar" : "calendar-clear-outline"}
+                />
+              ),
+            }}
+          />
         </Tab.Navigator>
-      }
+      )}
     </NavigationContainer>
+  );
+}
+
+const HomeStackScreen = ()=>{
+  return(
+    <Stack.Navigator screenOptions={{}}>
+      <Stack.Screen name="home" component={HomePage} options={{headerShown:false}}/>
+      <Stack.Screen name="Create a new Task" component={CreateTask}/>
+    </Stack.Navigator>
   )
 }
 
-export default function App() {  
+export default function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persister}>
-        <StatusBar style='light'/>
-        <InitialLayout/>
+        <StatusBar style="dark" />
+        <InitialLayout />
+        <Toast config={toastConfig} />
       </PersistGate>
     </Provider>
   );
@@ -53,9 +95,6 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#F7F9F2",
   },
 });

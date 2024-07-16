@@ -48,7 +48,8 @@ const styles = StyleSheet.create({
 
   container: {
     padding: 10,
-    flex: 1
+    flex: 1,
+    backgroundColor:'#ffffff'
   },
   image: {
     width: 385,

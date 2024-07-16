@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const persistConfig = {
     storage: AsyncStorage,
-    key:"root"
+    key:"PersonalTaskManager1.0"
 }
 
 const rootReducer = combineReducers({reducer})
