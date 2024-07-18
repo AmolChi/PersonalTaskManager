@@ -29,8 +29,16 @@ const HomePage = () => {
     setSelectedButton(id);
   };
 
-  const todayTask: Task[]|undefined = activeUser?.tasks.filter(task => new Date(task.dueDate).toDateString() === new Date().toDateString()) 
-  const completedTask :Task[]|undefined = activeUser?.tasks.filter(task => task.status === 'completed')
+  const todayTask: Task[] =
+    activeUser?.tasks.filter(
+      (task) =>
+        new Date(task.dueDate).toDateString() === new Date().toDateString()
+    ) ?? [];
+  const completedTask: Task[] =
+    activeUser?.tasks.filter((task) => task.status === "completed") ?? [];
+  const currentTask: Task[] =
+    activeUser?.tasks.filter((task) => task.status === "pending") ?? [];
+
   const logout = () => {
     dispatch(removeActiveUser());
   };
@@ -81,35 +89,86 @@ const HomePage = () => {
         <Icon size={60} source="plus-circle" color="#4535C1" />
       </TouchableOpacity>
 
-      {selectedButton === 1 && (
+      {selectedButton === 1 && currentTask.length > 0 && (
         <FlatList
-          data={activeUser?.tasks}
+          data={currentTask}
           renderItem={(t) => <TaskCard {...t.item} />}
           style={styles.list}
           contentContainerStyle={{ gap: 20, padding: 20 }}
         />
       )}
-      {
-        selectedButton === 2 && todayTask && (
-          <FlatList
-            data = {todayTask}
-            renderItem = {(t)=> <TaskCard {...t.item} />}
-            style = {styles.list}
-            contentContainerStyle = {{gap:20,padding:20}}
-          />
-        )
-      }
 
-      {
-        selectedButton === 3 && completedTask && (
-          <FlatList
-            data={completedTask}
-            renderItem={(t) => <TaskCard {...t.item} />}
-            style={styles.list}
-            contentContainerStyle={{ gap: 20, padding: 20 }}
-          />
-        )
-      }
+      {selectedButton === 1 && currentTask.length == 0 && (
+        <View
+          style={{
+            height: 500,
+            width: "50%",
+            margin: "auto",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Text
+            style={{ fontSize: 30, textAlign: "center", fontWeight: "300" }}
+          >
+            No tasks remaining, click on + to create a new task
+          </Text>
+        </View>
+      )}
+
+      {selectedButton === 2 && todayTask && (
+        <FlatList
+          data={todayTask}
+          renderItem={(t) => <TaskCard {...t.item} />}
+          style={styles.list}
+          contentContainerStyle={{ gap: 20, padding: 20 }}
+        />
+      )}
+
+      {selectedButton === 2 && todayTask.length == 0 && (
+        <View
+          style={{
+            height: 500,
+            width: "50%",
+            margin: "auto",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Text
+            style={{ fontSize: 30, textAlign: "center", fontWeight: "300" }}
+          >
+            No tasks remaining for today, click on + to create a new task
+          </Text>
+        </View>
+      )}
+
+      {selectedButton === 3 && completedTask && (
+        <FlatList
+          data={completedTask}
+          renderItem={(t) => <TaskCard {...t.item} />}
+          style={styles.list}
+          contentContainerStyle={{ gap: 20, padding: 20 }}
+        />
+      )}
+
+      {selectedButton === 3 && completedTask.length == 0 && (
+        <View
+          style={{
+            height: 500,
+            width: "50%",
+            margin: "auto",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Text
+            style={{ fontSize: 30, textAlign: "center", fontWeight: "300" }}
+          >
+            No task has been completed yet, please swipe on a task to complete
+          </Text>
+        </View>
+      )}
     </View>
   );
 };

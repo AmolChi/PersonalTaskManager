@@ -78,7 +78,7 @@ const CreateTask = () => {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ gap: 15 }}>
+    <ScrollView style={styles.container} contentContainerStyle={{ gap: 15,margin:'auto' }}>
       <Text style={styles.titleText}>ID</Text>
       <Text style={styles.contentText}>{id}</Text>
       <Text style={styles.titleText}>Title</Text>
@@ -141,8 +141,7 @@ export default CreateTask;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    paddingVertical: 20,
+    padding: 20,
     backgroundColor: "#ffffff",
   },
   errorText: {

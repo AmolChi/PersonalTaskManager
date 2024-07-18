@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: UserState = {
   users: [],
-  activeUser: null,
+  activeUser: null
 };
 
 const userSlice = createSlice({
@@ -19,7 +19,6 @@ const userSlice = createSlice({
     },
     removeActiveUser: (state) => {
       if (state.activeUser) {
-        console.log(state.users)
         const index = state.users.findIndex(user => user.id === state.activeUser?.id)
         if(index!==-1)
             state.users[index] = state.activeUser
