@@ -16,6 +16,7 @@ import { toastConfig } from "./helper/toastConfigs";
 import Toast from "react-native-toast-message";
 import { TabBarIcon } from "./components/TabBarIcon";
 import CreateTask from "./screens/auth/CreateTask";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -37,26 +38,26 @@ function InitialLayout() {
         </Stack.Navigator>
       ) : (
         <Tab.Navigator
-            activeColor="#ffffff"
-            inactiveColor="#ffffff"
-            barStyle={{ backgroundColor: '#4535C1'}}
-            activeIndicatorStyle={{ backgroundColor:'#4535C1'}}
-            shifting={true}
-            initialRouteName="Home"
+          activeColor="#ffffff"
+          inactiveColor="#ffffff"
+          barStyle={{ backgroundColor: '#4535C1' }}
+          activeIndicatorStyle={{ backgroundColor: '#4535C1' }}
+          shifting={true}
+          initialRouteName="Home"
         >
           <Tab.Screen
             name="Home"
             component={HomeStackScreen}
             options={{
               tabBarIcon: ({ color, focused }) => (
-                <TabBarIcon name={focused ? "home" : "home-outline"} color={color}/>
-              ),              
+                <TabBarIcon name={focused ? "home" : "home-outline"} color={color} />
+              ),
             }}
           />
           <Tab.Screen
             name="Calendar"
             component={Calender}
-            
+
             options={{
               tabBarIcon: ({ color, focused }) => (
                 <TabBarIcon
@@ -72,24 +73,33 @@ function InitialLayout() {
   );
 }
 
-const HomeStackScreen = ()=>{
-  return(
-    <Stack.Navigator screenOptions={{}}>
-      <Stack.Screen name="home" component={HomePage} options={{headerShown:false}}/>
-      <Stack.Screen name="Create a new Task" component={CreateTask}/>
+const HomeStackScreen = () => {
+  return (
+    <Stack.Navigator screenOptions={{
+      headerTitleAlign: 'center',
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: '#4535C1'
+      }
+    }}>
+      <Stack.Screen name="home" component={HomePage} options={{ headerShown: false }} />
+      <Stack.Screen name="New Task" component={CreateTask} />
     </Stack.Navigator>
   )
 }
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persister}>
-        <StatusBar style="dark" />
-        <InitialLayout />
-        <Toast config={toastConfig} />
-      </PersistGate>
-    </Provider>
+    <GestureHandlerRootView>
+
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persister}>
+          <StatusBar style="auto" />
+          <InitialLayout />
+          <Toast config={toastConfig} />
+        </PersistGate>
+      </Provider>
+    </GestureHandlerRootView>
   );
 }
 

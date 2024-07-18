@@ -6,12 +6,14 @@ export type User = {
     name: string
 }
 
+export type status= "pending"|"completed"
+
 export type Task = {
     id: string,
     title: string,
     description: string,
-    dueDate: Date,
-    status: boolean
+    dueDate: string,
+    status: status
 }
 
 export type UserState = {
@@ -26,4 +28,9 @@ export type UserRegister = {
     password:string,
     confirmPassword:string,
     email:string
+}
+
+export type TaskError = {
+    titleError:string,
+    descError:string,
 }

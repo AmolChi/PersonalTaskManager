@@ -20,9 +20,9 @@ const userSlice = createSlice({
     removeActiveUser: (state) => {
       if (state.activeUser) {
         console.log(state.users)
-        const index = -1;
+        const index = state.users.findIndex(user => user.id === state.activeUser?.id)
         if(index!==-1)
-            state.users[index] = state.activeUser;
+            state.users[index] = state.activeUser
         state.activeUser = null
       }
     },

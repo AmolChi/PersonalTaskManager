@@ -2,17 +2,14 @@ import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 import Toast, {BaseToast, ErrorToast, ToastOptions, ToastShowParams} from "react-native-toast-message";
 
 export const toastConfig = {
-    success:(props:ToastOptions)=>(
+    success:({props,text1}:ToastShowParams)=>(
 
-        <BaseToast
-            {...props}
-            style={{ borderLeftColor: 'pink' }}
-            contentContainerStyle={{ paddingHorizontal: 15 }}
-            text1Style={{
-                fontSize: 15,
-                fontWeight: '400'
-            }}
-        />
+        <View style={styles.errorView}>
+            <Image source={require('../assets/tick.png')} style={{ flex: 1, resizeMode: 'contain' }} />
+            <Text style={styles.text}>
+                {text1}
+            </Text>
+        </View>
     ),
 
     error: ({props,text1}:ToastShowParams) => (
